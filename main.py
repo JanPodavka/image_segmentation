@@ -9,6 +9,8 @@ class Graph:
     def add_edge(self, u, v, w):
         self.graph.append([u, v, w])
 
+    def create_neighborhood(self):
+        pass
 
 def parse_input(input_lines, size):
     graph = Graph(size)
@@ -18,9 +20,11 @@ def parse_input(input_lines, size):
     return graph
 
 
+
+
 if __name__ == '__main__':
     n = int(sys.stdin.readline())
     lines = sys.stdin.readlines()
     g = parse_input(lines, n)
-    print(g.V)
+
 
