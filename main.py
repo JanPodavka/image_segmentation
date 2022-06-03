@@ -11,14 +11,14 @@ class Graph:
 
     def create_4_neighborhood(self, size):
         for i in range(0, size):
-            for j in range(0, size):
-                print(i, j)
+            for j in range(0, size): # vždy přidat hranu pod a po levé straně, pokud je to možné
                 if i + 1 < size:
                     self.add_edge((i, j), (i + 1, j), abs(self.V[i][j] - self.V[i + 1][j]))
                 if j + 1 < size:
                     self.add_edge((i, j), (i, j + 1), abs(self.V[i][j] - self.V[i][j+1]))
-            print(len(g.graph))
 
+    def kruskal(self):
+        pass
 
 def parse_input(input_lines, size):
     graph = Graph(size)
@@ -29,8 +29,8 @@ def parse_input(input_lines, size):
 
 
 if __name__ == '__main__':
-    n = int(sys.stdin.readline())
-    lines = sys.stdin.readlines()
-    g = parse_input(lines, n)
-    g.create_4_neighborhood(n)
-    print(g.graph)
+    n = int(sys.stdin.readline()) # size of img
+    lines = sys.stdin.readlines() # lines of img
+    g = parse_input(lines, n) # parse and make graph
+    g.create_4_neighborhood(n) # create 4-neigh
+
