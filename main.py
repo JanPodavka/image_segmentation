@@ -13,4 +13,5 @@ class Graph:
 if __name__ == '__main__':
     n = int(sys.stdin.readline())
     for line in sys.stdin:
-        print(line)
+        line_1 = list(map(int, line.split()))
+
