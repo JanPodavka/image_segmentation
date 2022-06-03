@@ -3,29 +3,24 @@ import sys
 
 class Graph:
     def __init__(self, size):
-        self.V = [[0]*size]*size
+        self.V = [[0] * size] * size
         self.graph = []
 
     def add_edge(self, u, v, w):
         self.graph.append([u, v, w])
 
 
-if __name__ == '__main__':
-
-    n = int(sys.stdin.readline())
-    graph = Graph(n)
-    lines = sys.stdin.readlines()
-    for i, line in enumerate(lines):
+def parse_input(input_lines, size):
+    graph = Graph(size)
+    for i, line in enumerate(input_lines):
         row = list(map(int, line.split()))
         graph.V[i] = row
-        print(i)
-        print(graph.V[i])
+    return graph
 
 
-    # for i, line in enumerate(sys.stdin):
-    #     row = list(map(int, line.split()))
-    #     graph.V[i] = row
-    #     print(i)
-    #     print(graph.V[i])
+if __name__ == '__main__':
+    n = int(sys.stdin.readline())
+    lines = sys.stdin.readlines()
+    g = parse_input(lines, n)
+    print(g.V)
 
-    print(graph.V)
