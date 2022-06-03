@@ -11,9 +11,6 @@ class Graph:
 
 
 if __name__ == '__main__':
-    n = None
+    n = int(sys.stdin.readline())
     for line in sys.stdin:
-        if n is None:
-            n = line
-        else:
-            print(line)
+        print(line)
