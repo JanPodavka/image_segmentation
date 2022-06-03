@@ -2,8 +2,8 @@ import sys
 
 
 class Graph:
-    def __init__(self, vertex):
-        self.V = vertex
+    def __init__(self, size):
+        self.V = [[0]*size]*size
         self.graph = []
 
     def add_edge(self, u, v, w):
@@ -12,6 +12,10 @@ class Graph:
 
 if __name__ == '__main__':
     n = int(sys.stdin.readline())
-    for line in sys.stdin:
-        line_1 = list(map(int, line.split()))
+    graph = Graph(n)
+    for i, line in enumerate(sys.stdin):
+        row = list(map(int, line.split()))
+        for j, v in enumerate(row):
+            graph.V[i][j] = v
 
+    print(graph.V)
