@@ -11,11 +11,21 @@ class Graph:
 
 
 if __name__ == '__main__':
+
     n = int(sys.stdin.readline())
     graph = Graph(n)
-    for i, line in enumerate(sys.stdin):
+    lines = sys.stdin.readlines()
+    for i, line in enumerate(lines):
         row = list(map(int, line.split()))
-        for j, v in enumerate(row):
-            graph.V[i][j] = v
+        graph.V[i] = row
+        print(i)
+        print(graph.V[i])
+
+
+    # for i, line in enumerate(sys.stdin):
+    #     row = list(map(int, line.split()))
+    #     graph.V[i] = row
+    #     print(i)
+    #     print(graph.V[i])
 
     print(graph.V)
