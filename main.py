@@ -1,5 +1,5 @@
 import sys
-
+import heapq
 
 class Graph:
     def __init__(self, size):
@@ -16,31 +16,48 @@ class Graph:
                     self.add_edge((i, j), (i + 1, j), abs(self.V[i][j] - self.V[i + 1][j]))
                 if j + 1 < size:
                     self.add_edge((i, j), (i, j + 1), abs(self.V[i][j] - self.V[i][j + 1]))
-
     # Union-Find ##
 
-    def find(self, x):
-        print("s")
+    def find(self, parent, i):
+        if parent[i] == i:
+            return i
+        return self.find(parent, parent[i])
 
-    def union(self, u, v):
-        print("s")
+    def union(self, xroot, yroot, x, y):
+    #     if rank[xroot] < rank[yroot]:
+    #         parent[xroot] = yroot
+    #     elif rank[xroot] > rank[yroot]:
+    #         parent[yroot] = xroot
+    #     else:
+    #         parent[yroot] = xroot
+    #         rank[xroot] += 1
+        pass
 
     def kruskal(self, size):
         e = sorted(self.E, key=lambda x: x[2])  # sorted ascending
-        L1 = []
+        L = []
         i = 0  # iterace
-
         root = []
         rank = []
-        for node in range(size ** 2):
-            root.append(node)  # inicializace komponent
-            rank.append(0)  # inicializace ranků
+        # for j in range(size ** 2):
+        #     root.append(j)  # inicializace komponent
+        #     rank.append(0)  # inicializace ranků
 
-        while len(L1) < size ** 2 - 1:
-            u, v, w = e[i] # volba seřazené hrany
+        for j in range(size): # pro každý Vrchol
+            for k in range(size):
+                root.append((j, k))  # inicializace komponent
+                rank.append(0)  # inicializace ranků
+
+        while len(L) < size ** 2 - 1:
+            u, v, w = e[i]  # volba seřazené hrany
             i += 1
-            if self.find(u) != self.find(v):  # pokud nejsou ve stejné komponentě -> přidej..jinak přeskoč
-                self.union(self.find(u), self.find(v))
+            r1 = self.find(u, i)
+            print(r1)
+            r2 = self.find(v, i)
+            print(r2)
+            if r1 != r2:  # pokud nejsou ve stejné komponentě -> přidej..jinak přeskoč
+                #self.union(r1, r2)
+                print("pass")
 
 
 def parse_input(input_lines, size):
@@ -51,9 +68,21 @@ def parse_input(input_lines, size):
     return graph
 
 
+def test_file():
+    with open("test_img.txt", "r", encoding="UTF8") as f:
+        n = int(f.readline())
+        graph = Graph(n)
+        for i, line in enumerate(f.readlines()):
+            row = list(map(int, line.split()))
+            graph.V[i] = row
+    return graph, n
+
+
 if __name__ == '__main__':
-    n = int(sys.stdin.readline())  # size of img
-    lines = sys.stdin.readlines()  # lines of img
-    g = parse_input(lines, n)  # parse and make graph
+    # n = int(sys.stdin.readline())  # size of img
+    # lines = sys.stdin.readlines()  # lines of img
+    # g = parse_input(lines, n)  # parse and make graph
+    g, n = test_file()
     g.create_4_neighborhood(n)  # create 4-neigh
     g.kruskal(n)
+
