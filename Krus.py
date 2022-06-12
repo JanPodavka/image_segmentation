@@ -22,10 +22,6 @@ class Graph:
                     E.append([abs(values[i][j] - values[i + 1][j]), (i, j), (i + 1, j)])
                 if j + 1 < size:
                     E.append([abs(values[i][j] - values[i][j + 1]), (i, j), (i, j + 1)])
-                if j - 1 > -1:
-                    E.append([abs(values[i][j] - values[i][j - 1]), (i, j), (i, j - 1)])
-                if i - 1 > -1:
-                    E.append([abs(values[i][j] - values[i-1][j]), (i, j), (i-1, j)])
         return V, E
 
     def find(self, x):
