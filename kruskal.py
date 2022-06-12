@@ -1,8 +1,6 @@
 import sys
-import time
 from itertools import chain
 import numpy as np
-import setuptools.command.alias
 
 
 class Graph:
@@ -52,58 +50,19 @@ class Graph:
             if u_root != v_root and weight < 2:
                 self.union(u_root, v_root, weight)
 
-        return self.get_result()
-
-    def get_result(self):
-
-        root_diff = self.parent
-        edges = []
-        object = set()
-        for u, v in root_diff.items():
-            edges.append((u[0] * self.size + u[1], v[0] * self.size + v[1]))
-            object.add(u[0] * self.size + u[1])
-            object.add(v[0] * self.size + v[1])
-
-
-
-        #object = set(edges)
-
-        # background = set()
-        # background.add(0)
-        # while not background.isdisjoint(object):
-        #     for tups in edges:
-        #         if not background.isdisjoint(tups):
-        #             background.add(tups[0])
-        #             background.add(tups[1])
-        #             edges.remove(tups)
-        #             object.discard(tups[0])
-        #             object.discard(tups[1])
-        background = set()
-        background.add(0)
-        old_o = 0
-        old_b = 0
-        while old_o != len(object) and old_b != len(background):
-            old_b = len(background)
-            old_o = len(object)
-            for tups in edges:
-                if not background.isdisjoint(tups):
-                    background.add(tups[0])
-                    background.add(tups[1])
-                    object.discard(tups[0])
-                    object.discard(tups[1])
-
-
-
-        result = np.array([[1] * self.size] * self.size)
+        bg_root = self.find((0, 0))
         for i in range(self.size):
             for j in range(self.size):
-                if i * self.size + j in background:
-                    result[i][j] = 0
-        return result
+                curr_root = self.find((i, j))
+                if curr_root == bg_root:
+                    print(0, end=" ")
+                else:
+                    print(1, end=" ")
+            print("")
 
 
 def read_file():
-    with open("input1.txt", "r", encoding="UTF8") as f:
+    with open("input3.txt", "r", encoding="UTF8") as f:
         n = int(f.readline())
         values = [[0] * n] * n
         for i, line in enumerate(f.readlines()):
@@ -132,6 +91,5 @@ if __name__ == "__main__":
     # img = parse_input(lines, n)  # parse and make graph
     img = read_file()
     graph = Graph(img, img.shape[0])
-    result = graph.kruskal()
-    show_out(result.tolist())
-
+    graph.kruskal()
+    #show_out(result.tolist())
