@@ -75,7 +75,7 @@ def parse_input(input_lines, size):
 
 
 def test_file():
-    with open("test_img.txt", "r", encoding="UTF8") as f:
+    with open("input1.txt", "r", encoding="UTF8") as f:
         n = int(f.readline())
         graph = Graph(n)
         for i, line in enumerate(f.readlines()):

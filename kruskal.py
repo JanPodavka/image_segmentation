@@ -103,7 +103,7 @@ class Graph:
 
 
 def read_file():
-    with open("test_img.txt", "r", encoding="UTF8") as f:
+    with open("input1.txt", "r", encoding="UTF8") as f:
         n = int(f.readline())
         values = [[0] * n] * n
         for i, line in enumerate(f.readlines()):
