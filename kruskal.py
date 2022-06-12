@@ -2,6 +2,7 @@ import sys
 import time
 from itertools import chain
 import numpy as np
+import setuptools.command.alias
 
 
 class Graph:
@@ -9,7 +10,6 @@ class Graph:
         self.size = size
         self.values = list(chain.from_iterable(image))
         self.V, self.E = self.getVerticles(image, size)
-
         self.parent = {x: x for x in self.V}
         self.rank = {x: 0 for x in self.V}
         self.max_values = {x: self.values[idx] for idx, x in enumerate(self.V)}
@@ -24,10 +24,6 @@ class Graph:
                     E.append([abs(values[i][j] - values[i + 1][j]), (i, j), (i + 1, j)])
                 if j + 1 < size:
                     E.append([abs(values[i][j] - values[i][j + 1]), (i, j), (i, j + 1)])
-                if i - 1 >= 0:
-                    E.append([abs(values[i][j] - values[i - 1][j]), (i, j), (i - 1, j)])
-                if j - 1 >= 0:
-                    E.append([abs(values[i][j] - values[i][j - 1]), (i, j), (i, j - 1)])
         return V, E
 
     def find(self, x):
@@ -62,32 +58,40 @@ class Graph:
 
         root_diff = self.parent
         edges = []
+        object = set()
         for u, v in root_diff.items():
             edges.append((u[0] * self.size + u[1], v[0] * self.size + v[1]))
-            edges.append((v[0] * self.size + v[1], u[0] * self.size + u[1]))
-        # to_see = set()
-        # to_see.add(0)
+            object.add(u[0] * self.size + u[1])
+            object.add(v[0] * self.size + v[1])
+
+
+
+        #object = set(edges)
+
         # background = set()
         # background.add(0)
-        # while len(to_see) != 0:
-        #     u = to_see.pop()
-        #     for x, y in edges:
-        #         if x == u:
-        #             to_see.add(y)
-        #             background.add(y)
-        #             edges.remove((x, y))
-        #         elif y == u:
-        #             to_see.add(x)
-        #             background.add(x)
-        #             edges.remove((x, y))
-
-        set(root_diff)
+        # while not background.isdisjoint(object):
+        #     for tups in edges:
+        #         if not background.isdisjoint(tups):
+        #             background.add(tups[0])
+        #             background.add(tups[1])
+        #             edges.remove(tups)
+        #             object.discard(tups[0])
+        #             object.discard(tups[1])
         background = set()
         background.add(0)
-        for tups in edges:
-            if background.isdisjoint(tups):
-                background.add(tups[0])
-                background.add((tups[1]))
+        old_o = 0
+        old_b = 0
+        while old_o != len(object) and old_b != len(background):
+            old_b = len(background)
+            old_o = len(object)
+            for tups in edges:
+                if not background.isdisjoint(tups):
+                    background.add(tups[0])
+                    background.add(tups[1])
+                    object.discard(tups[0])
+                    object.discard(tups[1])
+
 
 
         result = np.array([[1] * self.size] * self.size)
@@ -123,7 +127,6 @@ def show_out(res):
 
 
 if __name__ == "__main__":
-    # start = time.time()
     # n = int(sys.stdin.readline())  # size of img
     # lines = sys.stdin.readlines()  # lines of img
     # img = parse_input(lines, n)  # parse and make graph
@@ -131,3 +134,4 @@ if __name__ == "__main__":
     graph = Graph(img, img.shape[0])
     result = graph.kruskal()
     show_out(result.tolist())
+
