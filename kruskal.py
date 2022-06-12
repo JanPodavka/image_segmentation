@@ -24,10 +24,10 @@ class Graph:
                     E.append([abs(values[i][j] - values[i + 1][j]), (i, j), (i + 1, j)])
                 if j + 1 < size:
                     E.append([abs(values[i][j] - values[i][j + 1]), (i, j), (i, j + 1)])
-                # if i - 1 >= 0:
-                #     E.append([abs(values[i][j] - values[i - 1][j]), (i, j), (i - 1, j)])
-                # if j - 1 >= 0:
-                #     E.append([abs(values[i][j] - values[i][j - 1]), (i, j), (i, j - 1)])
+                if i - 1 >= 0:
+                    E.append([abs(values[i][j] - values[i - 1][j]), (i, j), (i - 1, j)])
+                if j - 1 >= 0:
+                    E.append([abs(values[i][j] - values[i][j - 1]), (i, j), (i, j - 1)])
         return V, E
 
     def find(self, x):
@@ -65,28 +65,29 @@ class Graph:
         for u, v in root_diff.items():
             edges.append((u[0] * self.size + u[1], v[0] * self.size + v[1]))
             edges.append((v[0] * self.size + v[1], u[0] * self.size + u[1]))
-        to_see = set()
-        to_see.add(0)
+        # to_see = set()
+        # to_see.add(0)
+        # background = set()
+        # background.add(0)
+        # while len(to_see) != 0:
+        #     u = to_see.pop()
+        #     for x, y in edges:
+        #         if x == u:
+        #             to_see.add(y)
+        #             background.add(y)
+        #             edges.remove((x, y))
+        #         elif y == u:
+        #             to_see.add(x)
+        #             background.add(x)
+        #             edges.remove((x, y))
+
+        set(root_diff)
         background = set()
         background.add(0)
-        while len(to_see) != 0:
-            u = to_see.pop()
-            for x, y in edges:
-                if x == u:
-                    to_see.add(y)
-                    background.add(y)
-                    edges.remove((x, y))
-                elif y == u:
-                    to_see.add(x)
-                    background.add(x)
-                    edges.remove((x, y))
-
-        # set(root_diff)
-        # background = set()
-        # for tups in root_diff:
-        #     print(background.isdisjoint(tups))
-        #     if background.isdisjoint(tups):
-        #         background.add(tups)
+        for tups in edges:
+            if background.isdisjoint(tups):
+                background.add(tups[0])
+                background.add((tups[1]))
 
 
         result = np.array([[1] * self.size] * self.size)
